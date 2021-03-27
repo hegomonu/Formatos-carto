@@ -224,16 +224,17 @@
                 //alert("generando")
                 map.forEachFeatureAtPixel(evt.pixel, function (feature, layer) {
                     //alert(Object.keys(feature.getProperties()))
-                    if (feature.getProperties()){ 
+                    if (feature.getProperties().CLAVE50K){ 
                         formatos1(feature.getProperties().CLAVE50K);
                     }
                 })
             }else{
                 //alert("identificando")
-                map.forEachFeatureAtPixel(evt.pixel, function (feature, layer) {
+                /*map.forEachFeatureAtPixel(evt.pixel, function (feature, layer) {
                     //alert(Object.keys(feature.getProperties()))
                     if (feature.getProperties()){ //text-align: center;
-                    var table_feat = '<code>CLAVE50K:</code><p>' + feature.getProperties().CLAVE50K + '</p><code>LONG_MIN:</code><p>' + feature.getProperties().LONG_MIN + '</p><code>LONG_MAX:</code><p>' + feature.getProperties().LONG_MAX + '</p><code>LATI_MIN:</code><p>' + feature.getProperties().LATI_MIN + '</p><code>LATI_MAX:</code><p>' + feature.getProperties().LATI_MAX + '</p>'
+                      let nomen = (feature.getProperties().CLAVE50K ? feature.getProperties().CLAVE50K : feature.getProperties().CLAVE1K)
+                    var table_feat = '<code>NOMENCLATURA:</code><p>' + nomen + '</p><code>LONG_MIN:</code><p>' + feature.getProperties().LONG_MIN + '</p><code>LONG_MAX:</code><p>' + feature.getProperties().LONG_MAX + '</p><code>LATI_MIN:</code><p>' + feature.getProperties().LATI_MIN + '</p><code>LATI_MAX:</code><p>' + feature.getProperties().LATI_MAX + '</p>'
                             //alert(table_feat);
                     var element = popup.getElement();
                     $(element).popover('dispose');
@@ -246,8 +247,43 @@
                         content: table_feat,
                       });
                       $(element).popover('show');
+                      return
                   }
-                })
+                })*/
+                if (selectClick){
+                  let selectedFeatures = selectClick.getFeatures();
+                  let feature = selectedFeatures.item(0)
+                  if (feature.getProperties()){ //text-align: center;
+                      let nomen = (feature.getProperties().CLAVE50K ? feature.getProperties().CLAVE50K : feature.getProperties().CLAVE1K ? feature.getProperties().CLAVE1K:false)
+                      
+                      var table_feat = '';
+
+                      if(!nomen){
+                        let prop = feature.getProperties()
+                        for (var key in prop) {
+                            if (prop.hasOwnProperty(key)) {
+                                table_feat = table_feat + '<code>'+key+':</code><p>' + prop[key] + '</p>';
+                            }
+                        }
+                      }
+                      else{
+                        table_feat = '<code>NOMENCLATURA:</code><p>' + nomen + '</p><code>LONG_MIN:</code><p>' + feature.getProperties().LONG_MIN + '</p><code>LONG_MAX:</code><p>' + feature.getProperties().LONG_MAX + '</p><code>LATI_MIN:</code><p>' + feature.getProperties().LATI_MIN + '</p><code>LATI_MAX:</code><p>' + feature.getProperties().LATI_MAX + '</p>';
+                      }
+                      
+
+                      var element = popup.getElement();
+                      $(element).popover('dispose');
+                      popup.setPosition(evt.coordinate);
+                      $(element).popover({
+                          container: element,
+                          placement: 'top',
+                          animation: false,
+                          html: true,
+                          content: table_feat,
+                        });
+                        $(element).popover('show');
+                }
+              }
             }
                 
         };
