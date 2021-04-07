@@ -49,6 +49,8 @@ html, body {
 
         .popover-body {
             min-width: 200px;
+            max-height: 350px;
+            overflow-y: auto;
             text-align: center;
           }
 
@@ -127,4 +129,32 @@ html, body {
     }
     .slider2.round2:before {
       border-radius: 50%;
+    }
+
+    .dwl{
+      color: white;
+      padding: 0px 10px 0px 0px;
+      cursor: pointer;
+      width:20px;
+      height:20px;
+      border-radius: 14px;
+      border: 2px solid rgb(100,100,100);
+    }
+    .dwl:hover {
+      font-weight: bold;
+      width:20px;
+      height:20px;
+      border-radius: 15px;
+      border: solid rgb(70,70,70);
+      background-color: rgb(230,230,230);
+      color: black;
+    }
+    .shp{
+      background-color: rgb(120,0,0);
+    }
+    .kml{
+      background-color: rgb(0,0,120);
+    }
+    .geojson{
+      background-color: rgb(0,120,0);
     }

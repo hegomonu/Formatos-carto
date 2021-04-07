@@ -222,34 +222,5 @@ function formatos1(carta) {
             }
         }
     }
-
-    let filename = lsCarta+'_1k.geojson';
-    let jsonStr = JSON.stringify(geoJSON);
-
-    let element = document.createElement('a');
-    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(jsonStr));
-    element.setAttribute('download', filename);
-
-    element.style.display = 'none';
-    document.body.appendChild(element);
-
-    element.click();
-
-    document.body.removeChild(element);
-
-    //shpwrite.download(geoJSON);
-    let namePoly = lsCarta+'_1k';
-    var options = {
-        folder: lsCarta,
-        types: {
-            point: 'mypoints',
-            polygon: namePoly,
-            line: 'mylines'
-        }
-    }
-    // a GeoJSON bridge for features
-    shpwrite.zip(geoJSON, options).then(function(content) {
-      //console.log('data:application/zip;base64'+content);
-      saveAs(content, namePoly+'.zip');
-    });
+    return geoJSON
 }

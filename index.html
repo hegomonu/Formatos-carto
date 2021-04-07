@@ -11,6 +11,7 @@
     <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script>
     <script src="shpwrite.js"></script>
     <script src="filesaver.js"></script>
+    <script src="geojson2kml.js"></script>
     <!-- https://unpkg.com/shp-write@latest/ -->
     <script src="formatos.js"></script>
     <title>OpenLayers example</title>
@@ -222,12 +223,90 @@
         function action(evt) {
             if ($('#accion').is(':checked')) {
                 //alert("generando")
-                map.forEachFeatureAtPixel(evt.pixel, function (feature, layer) {
+                let selectedFeatures = selectClick.getFeatures();
+                let feature = selectedFeatures.item(0)
+                if (feature.getProperties().CLAVE50K){ 
+                  var carta = feature.getProperties().CLAVE50K;
+                  var geoJSON = formatos1(carta);
+                  table_feat = '<div id="download"><span class="">Malla de formatos 1:1000</span><br><br>'+
+                                '<span class="dwl shp">&#129123; SHP </span>'+
+                                '<span class="dwl kml">&#129123; KML </span><br><br>'+
+                                '<span class="dwl geojson">&#129123; GeoJSON </span><br></div>'
+                  let element = popup.getElement();
+                  element.title = "Descargar "+carta;
+                  $(element).popover('dispose');
+                  popup.setPosition(evt.coordinate);
+                  $(element).popover({
+                      container: element,
+                      placement: 'top',
+                      animation: false,
+                      html: true,
+                      content: table_feat,
+                    });
+                    $(element).popover('show');
+                  }
+                  $("#download").on("click", function(event) {
+                    let spans = $(this).find("span");
+                    for (let i = 0; i < spans.length; i++) {
+                      if (spans[i].contains(event.target) ){
+                        popup.setPosition(undefined);
+                        let filename = carta+'_1k';
+                        let element = document.createElement('a');
+
+                        switch(spans[i].innerHTML){
+                          case '🡣 SHP ':
+                            //shpwrite.download(geoJSON);
+                            let namePoly = carta+'_1k';
+                            let options = {
+                                folder: carta,
+                                types: {
+                                    point: 'mypoints',
+                                    polygon: namePoly,
+                                    line: 'mylines'
+                                }
+                            }
+                            // a GeoJSON bridge for features
+                            shpwrite.zip(geoJSON, options).then(function(content) {
+                              //console.log('data:application/zip;base64'+content);
+                              saveAs(content, namePoly+'.zip');
+                            });
+                            break;
+                          case '🡣 KML ':
+                            filename = filename+'.kml';
+                            
+                            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(constructorKML(carta+'_1k', geoJSON, 'https://drive.google.com/u/0/uc?id=1XvXbFj04_cDUai7LGB-mq-ASxmXnN38Q&export=download')));
+                            element.setAttribute('download', filename);
+                            element.style.display = 'none';
+                            document.body.appendChild(element);
+                            element.click();
+                            document.body.removeChild(element);
+                            break;
+                          case '🡣 GeoJSON ':
+                            filename = filename+'.geojson';
+                            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(JSON.stringify(geoJSON)));
+                            element.setAttribute('download', filename);
+                            element.style.display = 'none';
+                            document.body.appendChild(element);
+                            element.click();
+                            document.body.removeChild(element);
+                            break;
+                          default:
+                            alert(spans[i].innerHTML)
+                        }
+                      }
+
+                    }
+                  });
+
+                  
+                    
+                      
+                /*map.forEachFeatureAtPixel(evt.pixel, function (feature, layer) {
                     //alert(Object.keys(feature.getProperties()))
                     if (feature.getProperties().CLAVE50K){ 
                         formatos1(feature.getProperties().CLAVE50K);
                     }
-                })
+                })*/
             }else{
                 //alert("identificando")
                 /*map.forEachFeatureAtPixel(evt.pixel, function (feature, layer) {
@@ -262,7 +341,7 @@
                         let prop = feature.getProperties()
                         for (var key in prop) {
                             if (prop.hasOwnProperty(key)) {
-                                table_feat = table_feat + '<code>'+key+':</code><p>' + prop[key] + '</p>';
+                                table_feat = table_feat + '<code>'+key+':</code><p>' + ((typeof prop[key] == 'object') ? JSON.stringify(prop[key]) : prop[key]) + '</p>';
                             }
                         }
                       }
@@ -272,6 +351,7 @@
                       
 
                       var element = popup.getElement();
+                      element.title = "Seleccion"
                       $(element).popover('dispose');
                       popup.setPosition(evt.coordinate);
                       $(element).popover({

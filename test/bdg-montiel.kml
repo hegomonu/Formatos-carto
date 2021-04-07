@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
+<Document>
+	<name>NOMBRE</name>
+	<open>1</open>
+	<Schema name="Capa" id="Data">
+		<SimpleField type="string" name="Nomenclatura"></SimpleField>
+		<SimpleField type="string" name="LONG_MIN"></SimpleField>
+		<SimpleField type="string" name="LONG_MAX"></SimpleField>
+		<SimpleField type="string" name="LATI_MIN"></SimpleField>
+		<SimpleField type="string" name="LATI_MAX"></SimpleField>
+	</Schema>
+	<StyleMap id="estiloMapa">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#normalState</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#highlightState</styleUrl>
+		</Pair>
+	</StyleMap>
+	<Style id="normalState">
+		<IconStyle>
+			<scale>1.1</scale>
+		</IconStyle>
+		<LabelStyle>
+			<color>ff767676</color>
+			<scale>5</scale>
+		</LabelStyle>
+		<LineStyle>
+			<color>ffff0000</color>
+			<width>3</width>
+		</LineStyle>
+		<PolyStyle>
+			<color>1900ffff</color>
+		</PolyStyle>
+	</Style>
+	<Style id="highlightState">
+		<!-- <BalloonStyle>
+			<text><![CDATA[<table cellpadding="2" cellspacing="2" style="border:0px solid #0C6304" width="400px">
+<tr><td align="center" colspan="2"><img src="" height="50"></td></tr>
+<tr><td align="center" colspan="2"><font size="2" face="verdana" color="#696969">Dirección de Catastro Municipal</font></td></tr>
+<tr><td align="center" colspan="2"><b><font size="2" face="verdana" color="#2B422A">Inspeccion de campo</font></b></td></tr>
+</table>
+<table cellpadding="2" cellspacing="2" style="border:1px solid #0C6304" width="400px">
+<tr><td align="right"><font size="2" face="verdana" color="#000000">Nomenclatura : </font></td><td><font size="2" face="verdana" color="#555555">$[Capa/Nomenclatura]</font></td></tr>
+<tr><td align="right"><font size="2" face="verdana" color="#000000">LONG_MIN : </font></td><td><font size="2" face="verdana" color="#555555">$[Capa/LONG_MIN]</font></td></tr>
+<tr><td align="right"><font size="2" face="verdana" color="#000000">LONG_MAX : </font></td><td><font size="2" face="verdana" color="#555555">$[Capa/LONG_MAX]</td></tr>
+<tr><td align="right"><font size="2" face="verdana" color="#000000">LATI_MIN : </font></td><td><font size="2" face="verdana" color="#555555">$[Capa/LATI_MIN]</td></tr>
+<tr><td align="right"><font size="2" face="verdana" color="#000000">LATI_MAX : </font></td><td><font size="2" face="verdana" color="#555555">$[Capa/LATI_MAX]</td></tr>
+</table>
+<table cellpadding="2" cellspacing="2" style="border:0px solid #0C6304" width="400px">
+<tr><td align="center"><font size="2" face="verdana" color="#696969">BDG-Montiel</font></b></td></tr>
+</table>]]></text>
+		</BalloonStyle> -->
+		<LineStyle>
+			<width>3</width>
+		</LineStyle>
+		<PolyStyle>
+			<color>3256f5ed</color>
+		</PolyStyle>
+	</Style>
+	<Placemark>
+		<name>Parcela No. 1</name>
+		<styleUrl>#estiloMapa</styleUrl>
+		<!-- <ExtendedData>
+			<SchemaData schemaUrl="#Data">
+				<SimpleData name="Nomenclatura">DATO1</SimpleData>
+				<SimpleData name="LONG_MIN">DATO1</SimpleData>
+				<SimpleData name="LONG_MAX">DATO1</SimpleData>
+				<SimpleData name="LATI_MIN">DATO1</SimpleData>
+				<SimpleData name="LATI_MAX">DATO1</SimpleData>
+			</SchemaData>
+		</ExtendedData> -->
+		<MultiGeometry>
+			<Polygon>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							-107.5939091913861,24.8488595898654,0 
+							-107.5970334992117,24.85014051623917,0 
+							-107.5935876197246,24.84734402585614,0 
+							-107.5930203906305,24.84849519177461,0 
+							-107.5939091913861,24.8488595898654,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</MultiGeometry>
+	</Placemark>
+</Document>
+</kml>
